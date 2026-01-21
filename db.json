@@ -1,18 +1,16 @@
 {
   "courses": [
     {
-      "id": 1,
-      "name": "ReactJS Cơ Bản",
-      "credit": 3,
-      "category": "Chuyên ngành",
-      "teacher": "Nguyễn Văn A"
+      "name": "ReactJS Cơ Bản update",
+      "category": "Cơ sở",
+      "teacher": "Nguyễn Văn A",
+      "id": 1
     },
     {
-      "id": 2,
       "name": "TypeScript",
-      "credit": 2,
       "category": "Chuyên ngành",
-      "teacher": "Trần Thị B"
+      "teacher": "Trần Thị C",
+      "id": 2
     },
     {
       "id": 3,
@@ -34,13 +32,6 @@
       "credit": 5,
       "category": "Đại cương",
       "teacher": "Nguyễn Văn A"
-    },
-    {
-      "id": 6,
-      "name": "Lập trình O",
-      "credit": 6,
-      "category": "Đại cương",
-      "teacher": "Trần Thị B"
     },
     {
       "id": 7,

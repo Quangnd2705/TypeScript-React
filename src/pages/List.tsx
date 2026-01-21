@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 type Course = {
   id: number;
@@ -11,12 +13,13 @@ type Course = {
 
 function ListPage() {
   const [courses, setCourses] = useState<Course[]>([]);
-  const [inputValue, setInputValue] = useState(""); 
+  const [inputValue, setInputValue] = useState("");
   const [searchName, setSearchName] = useState("");
-  const [filterTeacher, setFilterTeacher] = useState(""); 
+  const [filterTeacher, setFilterTeacher] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  
-  const itemsPerPage = 5; 
+
+
+  const itemsPerPage = 5;
 
   useEffect(() => {
     const getAll = async () => {
@@ -34,6 +37,20 @@ function ListPage() {
     setSearchName(inputValue);
     setCurrentPage(1);
   };
+
+ const handleDelete = async (id: number) => {
+  try {
+    const ok = window.confirm("Bạn có chắc chắn muốn xóa?");
+    if (!ok) return;
+
+    await axios.delete(`http://localhost:3000/courses/${id}`);
+    setCourses(courses.filter((course) => course.id !== id));
+    toast.success("Xóa khóa học thành công");
+  } catch (error) {
+    toast.error("Xóa thất bại");
+  }
+};
+
 
   const filteredCourses = courses.filter((course) => {
     const matchesName = course.name.toLowerCase().includes(searchName.toLowerCase());
@@ -61,7 +78,7 @@ function ListPage() {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
           />
-          <button 
+          <button
             onClick={handleSearch}
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
           >
@@ -69,7 +86,7 @@ function ListPage() {
           </button>
         </div>
 
-        <select 
+        <select
           className="border p-2 rounded w-48"
           onChange={(e) => {
             setFilterTeacher(e.target.value);
@@ -91,7 +108,7 @@ function ListPage() {
               <th className="px-4 py-2 border border-gray-300">Chuyên mục</th>
               <th className="px-4 py-2 border border-gray-300">Giáo viên</th>
               <th className="px-4 py-2 border border-gray-300">Action</th>
-              
+
             </tr>
           </thead>
           <tbody>
@@ -104,8 +121,16 @@ function ListPage() {
                   <td className="px-4 py-2 border border-gray-300">{item.category}</td>
                   <td className="px-4 py-2 border border-gray-300">{item.teacher}</td>
                   <td>
-                    <button className="btn btn-danger">Xóa</button>
-                    
+                    <Link to={`/edit/${item.id}`} className=" ml-8 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
+                      Edit
+                    </Link>
+
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className="ml-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                    >
+                      Xóa
+                    </button>
                   </td>
                 </tr>
               ))
@@ -126,9 +151,8 @@ function ListPage() {
             <button
               key={page}
               onClick={() => setCurrentPage(page)}
-              className={`px-4 py-1 border rounded transition ${
-                currentPage === page ? "bg-blue-600 text-white" : "bg-white hover:bg-gray-100"
-              }`}
+              className={`px-4 py-1 border rounded transition ${currentPage === page ? "bg-blue-600 text-white" : "bg-white hover:bg-gray-100"
+                }`}
             >
               {page}
             </button>
