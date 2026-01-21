@@ -1,0 +1,60 @@
+{
+  "courses": [
+    {
+      "id": 1,
+      "name": "ReactJS Cơ Bản",
+      "credit": 3,
+      "category": "Chuyên ngành",
+      "teacher": "Nguyễn Văn A"
+    },
+    {
+      "id": 2,
+      "name": "TypeScript",
+      "credit": 2,
+      "category": "Chuyên ngành",
+      "teacher": "Trần Thị B"
+    },
+    {
+      "id": 3,
+      "name": "Cấu trúc dữ liệu",
+      "credit": 3,
+      "category": "Cơ sở",
+      "teacher": "Lê Văn C"
+    },
+    {
+      "id": 4,
+      "name": "Lập trình C",
+      "credit": 4,
+      "category": "Đại cương",
+      "teacher": "Phạm Văn D"
+    },
+    {
+      "id": 5,
+      "name": "Lập trình v",
+      "credit": 5,
+      "category": "Đại cương",
+      "teacher": "Nguyễn Văn A"
+    },
+    {
+      "id": 6,
+      "name": "Lập trình O",
+      "credit": 6,
+      "category": "Đại cương",
+      "teacher": "Trần Thị B"
+    },
+    {
+      "id": 7,
+      "name": "Lập trình C",
+      "credit": 7,
+      "category": "Đại cương",
+      "teacher": "Phạm Văn A"
+    },
+    {
+      "id": 8,
+      "name": "Lập trình P",
+      "credit": 8,
+      "category": "Đại cương",
+      "teacher": "Phạm Văn M"
+    }
+  ]
+}
