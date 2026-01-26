@@ -34,18 +34,19 @@
       "teacher": "Nguyễn Văn A"
     },
     {
-      "id": 7,
-      "name": "Lập trình C",
-      "credit": 7,
-      "category": "Đại cương",
-      "teacher": "Phạm Văn A"
-    },
-    {
-      "id": 8,
-      "name": "Lập trình P",
-      "credit": 8,
-      "category": "Đại cương",
-      "teacher": "Phạm Văn M"
+      "name": "KNLV",
+      "credit": 4,
+      "category": "Cơ sở",
+      "teacher": "Nguyễn Văn A",
+      "id": 6
     }
+  ],
+  "users": [
+    {
+      "email": "dinhquang0527@gmail.com",
+      "password": "$2a$10$GW2X8wUM8nOQi0VIffbG8O628p4dLFEqrFZcuNjXkffGZVRdTuNJW",
+      "id": 1
+    }
+    
   ]
 }

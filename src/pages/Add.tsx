@@ -6,14 +6,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
+
 const validateSchema = z.object({
   name: z
     .string()
+    .min(1, "Vui lòng nhập tên khóa học")
     .min(3, "Tên khóa học phải có ít nhất 3 ký tự")
     .max(21, "Tên khóa học không được vượt quá 21 ký tự"),
+
+credit: z
+  .number("Vui lòng nhập tín chỉ")
+  .min(1,"Tín chỉ phải >= 1")
+  .max(10, "Tín chỉ không được vượt quá 10"),
+
+
   category: z.string().min(1, "Vui lòng chọn loại khóa học"),
+
   teacher: z
     .string()
+    .min(1,"Vui lòng nhập tên giáo viên")
     .min(2, "Tên giáo viên phải có ít nhất 2 ký tự")
     .max(21, "Tên giáo viên không được vượt quá 21 ký tự"),
 });
@@ -22,7 +33,7 @@ type FormValues = z.infer<typeof validateSchema>;
 
 function AddPage() {
   const navigate = useNavigate();
-  const { id } = useParams(); 
+  const { id } = useParams();
 
   const {
     register,
@@ -33,6 +44,7 @@ function AddPage() {
     resolver: zodResolver(validateSchema),
     defaultValues: {
       name: "",
+      credit: 1,
       category: "Chuyên ngành",
       teacher: "",
     },
@@ -40,6 +52,7 @@ function AddPage() {
 
   const categories = ["Đại cương", "Cơ sở", "Chuyên ngành"];
 
+  /* ================== GET DETAIL (EDIT) ================== */
   useEffect(() => {
     if (!id) return;
 
@@ -50,26 +63,25 @@ function AddPage() {
         );
         reset(data);
       } catch (error) {
-        console.log(error);
+        toast.error("Không lấy được dữ liệu khóa học");
       }
     };
 
     getDetail();
   }, [id, reset]);
 
+  /* ================== SUBMIT ================== */
   const onSubmit = async (values: FormValues) => {
     try {
       if (id) {
         await axios.put(`http://localhost:3000/courses/${id}`, values);
         toast.success("Cập nhật khóa học thành công");
       } else {
-        //add
         await axios.post("http://localhost:3000/courses", values);
         toast.success("Thêm khóa học thành công");
       }
       navigate("/list");
     } catch (error) {
-      console.log(error);
       toast.error("Có lỗi xảy ra");
     }
   };
@@ -81,6 +93,7 @@ function AddPage() {
       </h1>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        {/* ===== TÊN KHÓA HỌC ===== */}
         <div>
           <label className="block font-medium mb-1">Tên khóa học *</label>
           <input
@@ -94,6 +107,24 @@ function AddPage() {
           )}
         </div>
 
+        {/* ===== TÍN CHỈ ===== */}
+        <div>
+          <label className="block font-medium mb-1">Tín chỉ *</label>
+          <input
+            type="number"
+            min={1}
+            max={10}
+            {...register("credit", { valueAsNumber: true })}
+            className={`w-full border px-3 py-2 rounded-lg ${
+              errors.credit ? "border-red-500" : "border-gray-300"
+            }`}
+          />
+          {errors.credit && (
+            <p className="text-red-500 text-sm">{errors.credit.message}</p>
+          )}
+        </div>
+
+        {/* ===== GIÁO VIÊN ===== */}
         <div>
           <label className="block font-medium mb-1">Giáo viên *</label>
           <input
@@ -101,11 +132,15 @@ function AddPage() {
             className={`w-full border px-3 py-2 rounded-lg ${
               errors.teacher ? "border-red-500" : "border-gray-300"
             }`}
-          />{errors.teacher && (
-            <p className="text-red-500 text-sm">{errors.teacher.message}</p>
+          />
+          {errors.teacher && (
+            <p className="text-red-500 text-sm">
+              {errors.teacher.message}
+            </p>
           )}
         </div>
 
+        {/* ===== LOẠI KHÓA HỌC ===== */}
         <div>
           <label className="block font-medium mb-1">Loại khóa học *</label>
           <select
@@ -122,6 +157,7 @@ function AddPage() {
           </select>
         </div>
 
+        {/* ===== ACTION ===== */}
         <div className="flex gap-4">
           <button
             type="submit"
