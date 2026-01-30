@@ -52,7 +52,6 @@ function AddPage() {
 
   const categories = ["Đại cương", "Cơ sở", "Chuyên ngành"];
 
-  /* ================== GET DETAIL (EDIT) ================== */
   useEffect(() => {
     if (!id) return;
 
@@ -70,7 +69,6 @@ function AddPage() {
     getDetail();
   }, [id, reset]);
 
-  /* ================== SUBMIT ================== */
   const onSubmit = async (values: FormValues) => {
     try {
       if (id) {
@@ -93,7 +91,6 @@ function AddPage() {
       </h1>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* ===== TÊN KHÓA HỌC ===== */}
         <div>
           <label className="block font-medium mb-1">Tên khóa học *</label>
           <input
@@ -107,7 +104,6 @@ function AddPage() {
           )}
         </div>
 
-        {/* ===== TÍN CHỈ ===== */}
         <div>
           <label className="block font-medium mb-1">Tín chỉ *</label>
           <input
@@ -124,7 +120,6 @@ function AddPage() {
           )}
         </div>
 
-        {/* ===== GIÁO VIÊN ===== */}
         <div>
           <label className="block font-medium mb-1">Giáo viên *</label>
           <input
@@ -140,7 +135,6 @@ function AddPage() {
           )}
         </div>
 
-        {/* ===== LOẠI KHÓA HỌC ===== */}
         <div>
           <label className="block font-medium mb-1">Loại khóa học *</label>
           <select
@@ -157,7 +151,6 @@ function AddPage() {
           </select>
         </div>
 
-        {/* ===== ACTION ===== */}
         <div className="flex gap-4">
           <button
             type="submit"

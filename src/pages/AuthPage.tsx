@@ -6,14 +6,20 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+type User = {
+  email: string;
+  username: string;
+};
+
 type Props = {
   isLogin?: boolean;
+  setUser: (user: User) => void; 
 };
 
 const registerSchema = z.object({
   username: z.string().min(1, "Username là bắt buộc").min(3, "Username phải > 2 ký tự"),
   email: z.string().min(1, "Email là bắt buộc").email("Email không hợp lệ"),
-  password: z.string().min(1,"Password là bắt buộc").min(7, "Password phải > 6 ký tự"),
+  password: z.string().min(1, "Password là bắt buộc").min(7, "Password phải > 6 ký tự"),
   confirmPassword: z.string().min(1, "Vui lòng xác nhận mật khẩu"),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Mật khẩu xác nhận không khớp",
@@ -27,14 +33,14 @@ const loginSchema = z.object({
 
 type FormValues = z.infer<typeof registerSchema>;
 
-function AuthPage({ isLogin }: Props) {
+function AuthPage({ isLogin, setUser }: Props) {
   const nav = useNavigate();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset 
+    reset
   } = useForm<FormValues>({
     resolver: zodResolver(isLogin ? loginSchema : registerSchema) as any,
     mode: "onChange",
@@ -58,14 +64,22 @@ function AuthPage({ isLogin }: Props) {
   const onSubmit = async (values: FormValues) => {
     try {
       const url = isLogin ? "http://localhost:3000/login" : "http://localhost:3000/register";
-      const payload = isLogin 
-        ? { email: values.email, password: values.password } 
-        : values;
+      
+      let payload;
+      if (isLogin) {
+        payload = { email: values.email, password: values.password };
+      } else {
+        const { confirmPassword, ...registerData } = values;
+        payload = registerData;
+      }
 
       const { data } = await axios.post(url, payload);
 
       if (isLogin) {
         localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        
+        setUser(data.user); 
         toast.success("Đăng nhập thành công");
         nav("/list");
       } else {
@@ -78,11 +92,11 @@ function AuthPage({ isLogin }: Props) {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 border rounded shadow-lg bg-white">
+    <div className="max-w-md mx-auto mt-10 p-6 border rounded shadow-lg bg-white text-left">
       <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
         {isLogin ? "Login" : "Register"}
       </h1>
-      
+
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {!isLogin && (
           <div>

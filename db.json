@@ -44,9 +44,15 @@
   "users": [
     {
       "email": "dinhquang0527@gmail.com",
-      "password": "$2a$10$GW2X8wUM8nOQi0VIffbG8O628p4dLFEqrFZcuNjXkffGZVRdTuNJW",
+      "password": "$2a$10$t5RxTytb9hFXGMhKxFZyVuK/WoTR7N5MzRNOzUuxOPgn1jTmilT7i",
+      "username": "Nguyễn Đình Quang",
       "id": 1
+    },
+    {
+      "email": "quang@gmail.com",
+      "password": "$2a$10$0qulyJ2hllLAKdmLXdOwQekvmbn.UrpEfPPmDUloutxddyRGQbYoO",
+      "username": "Quang",
+      "id": 2
     }
-    
   ]
 }
